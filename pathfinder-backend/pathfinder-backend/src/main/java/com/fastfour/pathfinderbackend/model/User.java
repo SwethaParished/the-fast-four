@@ -1,13 +1,12 @@
 package com.fastfour.pathfinderbackend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user")
 public class User {
     @Id
-    @GeneratedValue//(strategy = GenerationType.IDENTITY) //ariel quest
+    @GeneratedValue(strategy = GenerationType.AUTO) //ariel quest
     private Long id;
 
     public User() {
@@ -19,8 +18,6 @@ public class User {
     private String firstName;
     private String lastName;
     private String username;
-
-
     private String password;
     private String email;
 
