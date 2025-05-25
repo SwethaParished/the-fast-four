@@ -30,7 +30,7 @@ export default function CreateHike() {
   const onSubmit = async (e) => {
     e.preventDefault();
     console.log(hikeDate)
-    await axios.post("http://localhost:8080/createhike", {
+    await axios.post("http://localhost:9090/createhike", {
       trailName: feature.properties.TRAIL_NAME,
       areaName: feature.properties.AREA_NAME,
       walkable: feature.properties.WALKING,
@@ -39,13 +39,13 @@ export default function CreateHike() {
       date: hikeDate,
       user: userId
     })
-    navigate("/userhomepage")
+    navigate("/allhikes")
   }
   const handleSearchResults = (results) => {
     if (results.length > 0) {
       setFeature(results[0]);
       if (results[0].properties) {
-        axios.get("http://localhost:8080/comments/" + results[0].properties.TRAIL_NAME)
+        axios.get("http://localhost:9090/comments/" + results[0].properties.TRAIL_NAME)
           .then((response) => {
             setAllComments(response.data);
           })
@@ -57,14 +57,14 @@ export default function CreateHike() {
   const submitComment = async function (e) {
     e.preventDefault();
 
-    await axios.post("http://localhost:8080/comments", {
+    await axios.post("http://localhost:9090/comments", {
       trailName: feature.properties.TRAIL_NAME,
       text: comment,
       createdBy: userId,
       createdDate: new Date().toLocaleDateString()
     })
 
-    axios.get("http://localhost:8080/comments/" + feature.properties.TRAIL_NAME)
+    axios.get("http://localhost:9090/comments/" + feature.properties.TRAIL_NAME)
       .then((response) => {
         setAllComments(response.data);
       })
@@ -82,7 +82,7 @@ export default function CreateHike() {
       });
 
       const username = localStorage.getItem("user");
-      axios.get("http://localhost:8080/user/" + username).then(res => {
+      axios.get("http://localhost:9090/user/" + username).then(res => {
         setUserId(res.data.id);
       })
 
@@ -102,7 +102,7 @@ export default function CreateHike() {
           const feature = features[0];
           //setSelectedCoordinates(feature.geometry.coordinates)
           setFeature(feature);
-          axios.get("http://localhost:8080/comments/" + feature.properties.TRAIL_NAME)
+          axios.get("http://localhost:9090/comments/" + feature.properties.TRAIL_NAME)
             .then((response) => {
               setAllComments(response.data);
             })

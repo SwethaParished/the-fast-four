@@ -1,16 +1,17 @@
 import { NavDropdown, Container, Nav, Navbar, Button, ButtonGroup, Form } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 import React from 'react';
 import useLogin from '../hooks/useLogin';
 import logo from '../img/logo1.jpg';
+import Home from "../pages/Home";
 
 function NavbarBS() {
 
   const [user, setUser] = useState();
 
   const loadLogin = useLogin();
-
+let navigate = useNavigate();
   useEffect(() => {
     setUser(loadLogin);
   }, [loadLogin]);
@@ -18,6 +19,7 @@ function NavbarBS() {
   const handleLogout = () => {
     setUser("");
     localStorage.clear();
+    navigate("/")
   };
 
   const authButton = () => {
@@ -54,7 +56,6 @@ function NavbarBS() {
         menuVariant="dark"
         align="end"
       >
-        <NavDropdown.Item as={Link} to="/">Home</NavDropdown.Item>
         <NavDropdown.Item as={Link} to="/viewuser">View Your Details</NavDropdown.Item>
         <NavDropdown.Item as={Link} to="/edituser">Edit Your Details</NavDropdown.Item>
         <NavDropdown.Item as={Link} to="/userhomepage">User Home Page</NavDropdown.Item>

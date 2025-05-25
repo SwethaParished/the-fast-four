@@ -17,14 +17,14 @@ export default function UserHomePage() {
     date: ""
   })
   const username = localStorage.getItem("user");
-  axios.get("http://localhost:8080/user/" + username).then(res => {
+  axios.get("http://localhost:9090/user/" + username).then(res => {
     setUserId(res.data.id);
   })
 
   const loadAllHikes = async () => {
-    const result = await axios.get("http://localhost:8080/viewhikes/" + userId);
-    console.log(result)
-    const sortedResult = result.data.sort((a, b) => {
+    const result = await axios.get("http://localhost:9090/allhikes");
+    //console.log(result)
+   const sortedResult = result.data.sort((a, b) => {
       if (a.date > b.date) {
         return -1
       }
@@ -34,15 +34,18 @@ export default function UserHomePage() {
       return 0
     })
     setFutureHikes(sortedResult);
+    setFutureHikes(result.data);
   }
 
 
   return (
 
     <div className='section'>
+    <h1> Hi! Welcome to your HomePage!</h1><hr/>
+    <h3>Click any button to start navigating!</h3>
       {/* <a className="btn btn-primary" href="#" role="button">Create Hike</a> */}
       <Link className="btn btn-primary mx-2" to="/createhike">Create Hike</Link>
-      <button className="btn btn-primary mx-2" type="submit" onClick={loadAllHikes}>Hikes List</button>
+      <Link className="btn btn-primary mx-2" type="submit" to="/allhikes">Hikes List</Link>
 
       {/* {
   futureHikes ? <div class="list-group">
@@ -52,7 +55,7 @@ export default function UserHomePage() {
   <a href="#" class="list-group-item list-group-item-action">A second link item</a>
  
 </div> : <div></div>
-} */}
+}
 
 
       <table className="table center" style={{ width: 600 + "px" }}>
@@ -61,14 +64,17 @@ export default function UserHomePage() {
             <th scope="col">S.No</th>
             <th scope="col">Trail Name</th>
             <th scope="col">Hike Date</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
           {futureHikes?.map((hike, index) => (
             <tr>
               <th scope="row" key={index}>{index + 1}</th>
-              <td><Link to={`/viewhike/${hike.id}`}>{hike.trailName}</Link></td>
+              <td>{hike.trailName}</td>
               <td>{hike.date}</td>
+              <td><Link to={`/viewhike/${hike.id}`}>View</Link></td>
+
 
             </tr>
           ))}
@@ -77,7 +83,7 @@ export default function UserHomePage() {
         </tbody>
       </table>
 
-
+*/}
       {/* <input className="btn btn-primary" type="button" value="Input"></input>
 <input className="btn btn-primary" type="submit" value="Submit"></input>
 <input className="btn btn-primary" type="reset" value="Reset"></input> */}

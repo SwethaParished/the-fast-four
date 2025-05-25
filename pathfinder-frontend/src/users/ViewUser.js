@@ -26,7 +26,7 @@ export default function ViewUser() {
     }, [loadLogin, userAuth])
 
     const loadUser = async () => {
-        const result = await axios.get(`http://localhost:8080/user/${userAuth}`);
+        const result = await axios.get(`http://localhost:9090/user/${userAuth}`);
         console.log(result?.data);
         setUser(result?.data);
         console.log(user);
@@ -39,19 +39,15 @@ export default function ViewUser() {
                     <h2 className="text-center m-4">Welcome, {user.username}!</h2>
                     <ul className="list-group list-group-flush">
                         <li className="list-group-item">
-                            Name: {user.firstName} {user.lastName}
+                            First Name: {user.firstName}
                         </li>
-                        <li className="list-group-item">
-                            E-mail: {user.email}
-                        </li>
-                        <li className="list-group-item">
-                            No. hikes created:
-                        </li>
-                        <li className="list-group-item">
-                            No. miles hiked:
-                        </li>
+                         <li className="list-group-item">
+                              Last Name: {user.lastName}
+                          </li>
+
                     </ul>
-                    <Link className="btn btn-outline-primary" to={`/edituser`}>Edit details</Link>
+                    <Link className="btn btn-primary" to={`/edituser`}>Edit details</Link>
+                    <Link className="btn btn-primary mx-2" to={`/userhomepage`}>Back</Link>
 
                 </div>
             </div>

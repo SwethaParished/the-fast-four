@@ -18,7 +18,7 @@ export default function DeleteUser() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.delete(`http://localhost:8080/user/${id}`);
+    await axios.delete(`http://localhost:9090/user/${id}`);
     navigate(`/`);
   };
 
@@ -27,7 +27,7 @@ export default function DeleteUser() {
   }, [])
 
   const loadUser = async () => {
-    const result = await axios.get(`http://localhost:8080/user/${id}`)
+    const result = await axios.get(`http://localhost:9090/user/${id}`)
     setUser(result.data)
   }
 

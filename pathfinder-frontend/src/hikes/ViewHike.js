@@ -39,13 +39,13 @@ export default function ViewHike() {
     }, []);
 
     const loadAllHikes = async () => {
-        const result = await axios.get(`http://localhost:8080/viewhike/${id}`);
+        const result = await axios.get(`http://localhost:9090/viewhike/${id}`);
         setAllHikes(result.data);
     }
     const deletehike = async (id) => {
-        const result = await axios.delete(`http://localhost:8080/deletehike/${id}`)
+        const result = await axios.delete(`http://localhost:9090/deletehike/${id}`)
         setAllHikes(result.data);
-        navigate("/userhomepage")
+        navigate("/allhikes")
     }
 
 
@@ -53,7 +53,7 @@ export default function ViewHike() {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await axios.get(`http://localhost:8080/allhikes`);
+        await axios.get(`http://localhost:9090/allhikes`);
         navigate("/userhomepage")
     };
 
@@ -61,73 +61,45 @@ export default function ViewHike() {
 
         <div >
             <div className="section">
-                <div className="split-left">
+                <div className="center">
                     <h1>View Hike Details</h1>
 
                     <div className="mb-3">
-                        <label>Trail Name: </label>
-                        <input
-
-                            type={"text"}
-                            autoComplete="off"
-                            value={allhikes.trailName}
-                            onChange={(e) => onInputChange(e)}
-                            disabled={true}
-                        />
+                        <label>Trail Name : </label>
+                        <label>{allhikes.trailName}</label>
                     </div>
                     <div className="mb-3">
-                        <label>Area Name: </label>
-                        <input
-                            type={"text"}
-                            autoComplete="off"
-                            value={allhikes.areaName}
-                            onChange={(e) => onInputChange(e)}
-                            disabled={true}
-                        />
+                        <label>Area Name :  </label>
+                        <label>{allhikes.areaName}</label>
                     </div>
                     <div className="mb-3">
-                        <label>Walkable</label>
-                        <input
-                            type={"text"}
-                            autoComplete="off"
-                            value={allhikes.walkable}
-                            onChange={(e) => onInputChange(e)}
-                            disabled={true}
-                        /></div>
+                        <label>Walkable :</label>
+                        <label>{allhikes.walkable}</label>
+                      </div>
                     <div className="mb-3">
-                        <label>Bike Friendly</label>
-                        <input
-                            type={"text"}
-                            autoComplete="off"
-                            value={allhikes.bikeFriendly}
-                            onChange={(e) => onInputChange(e)}
-                            disabled={true}
-                        /></div>
+                        <label>Bike Friendly :</label>
+                        <label>{allhikes.bikeFriendly}</label>
+                        </div>
                     <div className="mb-3">
-                        <label>Distance</label>
-                        <input
-                            type={"text"}
-                            autoComplete="off"
-                            value={allhikes.distance}
-                            onChange={(e) => onInputChange(e)}
-                            disabled={true}
-                        /></div>
+                        <label>Distance :</label>
+                        <label>{allhikes.distance}</label>
+                        </div>
                     <div className="mb-3">
-                        <label>Date:</label>
-                        <Calendar onChange={changeValue} value={hikeDate} disabled={true} />
+                        <label>Date :</label>
+                        <label>{allhikes.date}</label>
 
                     </div>
 
-                    <Link className="btn btn-primary mx-2" to={`/edithike/${id}`}>Edit</Link>
+                    {/*<Link className="btn btn-primary mx-2" to={`/edithike/${id}`}>Edit</Link>
 
                     <button className='btn btn-primary mx-3' onClick={() => deletehike(allhikes.id)}>Delete</button>
 
-                    <Link className="btn btn-primary mx-2" to="/userhomepage">Cancel</Link>
+                    */}<Link className="btn btn-primary mx-2" to="/allhikes">Back</Link>
 
 
-
-                    <div className="box-share">
-                        <h3 className="headind3">Share:</h3>
+<hr/>
+                    <div className="center">
+                        <h3>Share:</h3>
                         <FacebookShareButton
                             url="https://www.facebook.com/groups/hikingforadventure">
                             <FacebookIcon size={40} round={true} color="#4968ad" />
@@ -145,13 +117,7 @@ export default function ViewHike() {
                             <EmailIcon size={40} round={true} />
                         </EmailShareButton>
                     </div><br />
-                    <div className="split-right">
-                        <div className="box-share">
-                            <h3 className="headind3">Reviews:</h3>
 
-
-                        </div>
-                    </div>
                 </div>
 
             </div>

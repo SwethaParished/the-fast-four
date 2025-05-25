@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NavbarForHome from '../HomePage/NavbarForHome';
-import '../HomePage/HeroSection.css';
 
 const Login = () => {
     const userRef = useRef();
@@ -26,7 +25,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post("http://localhost:8080/login",
+            const response = await axios.post("http://localhost:9090/login",
                 JSON.stringify({ username, password }),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -36,7 +35,7 @@ const Login = () => {
             localStorage.setItem('token', response?.data?.token);
             setUsername('');
             setPassword('');
-            navigate("/");
+            navigate("/UserHomePage");
             window.location.reload(false);
         } catch (err) {
             if (!err?.response) {

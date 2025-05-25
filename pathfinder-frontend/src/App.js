@@ -10,7 +10,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import CreateHike from './components/CreateHike';
 import EditUser from './users/EditUser';
 import UserHomePage from './pages/UserHomePage';
-import AllHikes from './pages/AllHikes';
+import AllHikes from './hikes/AllHikes';
 import React from 'react';
 import Login from './pages/Login';
 import ViewUser from './users/ViewUser';
@@ -20,7 +20,6 @@ import DeleteUser from './users/DeleteUser';
 import Explore from './components/Explore';
 import EditHike from './hikes/EditHike';
 import ViewHike from './hikes/ViewHike';
-import SocialFollow from './HomePage/SocialFollow'; //aded this line (???)
 import Search from './components/Search'
 
 
@@ -44,13 +43,9 @@ function App() {
           <Route exact path="/viewhike/:id" element={<ViewHike />} />
           <Route exact path="/explore" element={<Explore />} />
           <Route path="/allhikes" element={<AllHikes />} />
-          <Route path="/socialfollow" element={<SocialFollow />} /> */added this line (???)
         </Route>
       </Routes>
-      {/* <NavbarForHome /> */}
-      {/* <UserHomePage /> */}
 
-      {/* <CreateHike /> */}
     </div>
   );
 }

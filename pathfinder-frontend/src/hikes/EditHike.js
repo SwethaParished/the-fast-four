@@ -1,189 +1,127 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import './ViewHike.css'
-import NavbarBS from "../layout/NavbarBS";
-import Calendar from "react-multi-date-picker";
+import './EditHike.css';
 import DatePicker from "react-multi-date-picker"
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
-import {
-    FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, PinterestShareButton,
-    PinterestIcon, InstapaperIcon, InstapaperShareButton, EmailShareButton, EmailIcon
-} from "react-share";
+import Search from "../components/Search";
+import ImageUpload from "./ImageUpload";
+
 
 
 export default function EditHike() {
 
-    const [hikeDate, changeHikeDate] = useState(new Date());
-    const [feature, setFeature] = useState({});
+    const [hikeDate, changeHikeDate] = useState("");
+    const [level,setLevel] = useState("");
     let navigate = useNavigate();
+    const { id } = useParams();
+
     const [allhikes, setAllHikes] = useState({
         trailName: "",
         areaName: "",
         walkable: "",
         bikeFriendly: "",
         distance: "",
-        date: ""
+        date: "",
+        levels:""
     })
-    const { trailName, areaName, walkable, bikeFriendly, distance, date } = allhikes
-
-
-    const onInputChange = (e) => {
+    const { trailName, areaName, walkable, bikeFriendly, distance, date,levels } = allhikes
+const onInputChange = (e) => {
         setAllHikes({ ...allhikes, [e.target.name]: e.target.value });
     }
-    function changeValue(val) {
-        changeHikeDate(val);
-    }
+    const [editHike, setEditHike] = useState({
+        trailName: "",
+        areaName: "",
+        walkable: "",
+        bikeFriendly: "",
+        distance: "",
+        date: "",
+        levels:""
+    })
+
+const onSubmit = async (e) => {
+    e.preventDefault();
+   await axios.put(`http://localhost:9090/edithike/${id}`, allhikes);
+
+    navigate("/allhikes")
+  }
+
+
+   function changeValue(val) {
+     const formatted = val instanceof Date ? val.toISOString().split("T")[0] : val;
+     changeHikeDate(formatted);
+     setAllHikes({ ...allhikes, date: formatted });
+   }
     useEffect(() => {
         loadAllHikes();
     }, []);
 
     const loadAllHikes = async () => {
-        const result = await axios.get(`http://localhost:8080/viewhike/${id}`);
+        const result = await axios.get(`http://localhost:9090/viewhike/${id}`);
         setAllHikes(result.data);
-    }
-    const deletehike = async (id) => {
-        const result = await axios.delete(`http://localhost:8080/deletehike/${id}`)
-        setAllHikes(result.data);
-        navigate("/userhomepage")
+
     }
 
-
-    const { id } = useParams();
-
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        await axios.post(`http://localhost:8080/allhikes`);
-        navigate("/userhomepage")
-    };
-
-    return (
-
-        <div >
-            <NavbarBS />
-            <div className="section">
-                <div className="split-left">
-                    <h1>View Hike Details</h1>
-
-                    <div className="mb-3">
-                        <label>Trail Name: </label>
-                        <input
-
-                            type={"text"}
-                            autoComplete="off"
-                            value={allhikes.trailName}
-                            onChange={(e) => onInputChange(e)}
-                            disabled={true}
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label>Area Name: </label>
-                        <input
-                            type={"text"}
-                            autoComplete="off"
-                            value={allhikes.areaName}
-                            onChange={(e) => onInputChange(e)}
-                            disabled={true}
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label>Walkable</label>
-                        <input
-                            type={"text"}
-                            autoComplete="off"
-                            value={allhikes.walkable}
-                            onChange={(e) => onInputChange(e)}
-                            disabled={true}
-                        /></div>
-                    <div className="mb-3">
-                        <label>Bike Friendly</label>
-                        <input
-                            type={"text"}
-                            autoComplete="off"
-                            value={allhikes.bikeFriendly}
-                            onChange={(e) => onInputChange(e)}
-                            disabled={true}
-                        /></div>
-                    <div className="mb-3">
-                        <label>Distance</label>
-                        <input
-                            type={"text"}
-                            autoComplete="off"
-                            value={allhikes.distance}
-                            onChange={(e) => onInputChange(e)}
-                            disabled={true}
-                        /></div>
-                    <div className="mb-3">
-                        <label>Date:</label>
-                        <Calendar onChange={changeValue} value={hikeDate} disabled={true} />
-
-                    </div>
-
-                    <button type="submit" className="btn btn-primary  mx-3">Edit</button>
-
-                    <button className='btn btn-primary mx-3' onClick={() => deletehike(allhikes.id)}>Delete</button>
-
-                    <Link className="btn btn-primary mx-2" to="/userhomepage">Cancel</Link>
+    const handleLevelChange = (e) => {
+        setLevel(e.target.value);
+      };
 
 
+  return(
 
-                    <div className="box-share">
-                        <h3 className="headind3">Share:</h3>
-                        <FacebookShareButton
-                            url="https://www.facebook.com/groups/hikingforadventure">
-                            <FacebookIcon size={40} round={true} color="#4968ad" />
-                        </FacebookShareButton>&nbsp;
-                        <TwitterShareButton url="https://twitter.com/TheHikingGuide">
-                            <TwitterIcon size={40} round={true} />
-                        </TwitterShareButton>&nbsp;
-                        {/*<PinterestShareButton url="">
-                    <PinterestIcon size={40} round={true} />
-  </PinterestShareButton>&nbsp;*/}
-                        <InstapaperShareButton url="https://www.instagram.com/hiking.guide/">
-                            <InstapaperIcon size={40} round={true} />
-                        </InstapaperShareButton>&nbsp;
-                        <EmailShareButton url="">
-                            <EmailIcon size={40} round={true} />
-                        </EmailShareButton>
-                    </div><br />
-                    <div className="box-share">
-                        <h3 className="headind3">Reviews:</h3>
+    <div >
+
+        <div className="section">
 
 
-                    </div>
-                </div>
-                <div className="split-right" >
-                    <h2>Edit Suggestions</h2>
-                    <div className="box-share">
-                        <h3 className="headind3">Route type: </h3>
-                        <input type="radio" name="topping" value="loop" id="loop" />
-                        <label htmlFor="loop" className="mx-2">loop</label>
-                        <input type="radio" name="topping" value="out&back" id="out&back" />
-                        <label htmlFor="out&back" className="mx-2">out&back</label>
-                        <input type="radio" name="topping" value="point-to-point" id="point-to-point" />
-                        <label htmlFor="point-to-point" className="mx-2">point-to-point</label>
-                    </div>    <br />
-                    <div className="box-share">
-                        <h3 className="headind3">Level:</h3>
-                        <input type="radio" name="topping" value="easy" id="easy" />
-                        <label htmlFor="easy" className="mx-2">easy</label>
-                        <input type="radio" name="topping" value="moderate" id="moderate" />
-                        <label htmlFor="moderate" className="mx-2">moderate</label>
-                        <input type="radio" name="topping" value="difficulty" id="difficulty" />
-                        <label htmlFor="difficulty" className="mx-2">difficulty</label>
-                    </div><br />
-                    <div className="box-share">
-                        <h3 className="headind3">Usage:</h3>
-                        <input type="radio" name="topping" value="light" id="light" />
-                        <label htmlFor="easy" className="mx-2">light</label>
-                        <input type="radio" name="topping" value="moderate" id="moderate" />
-                        <label htmlFor="moderate" className="mx-2">moderate</label>
-                        <input type="radio" name="topping" value="heavy" id="heavy" />
-                        <label htmlFor="heavy" className="mx-2">heavy</label>
-                    </div>
-                </div>
+        <div className="center">
+        <h2>Edit Hike Details</h2><hr/>
+                        </div>
+
+            <div className="center">
+            <div className="mb-3">
+                                                <label>Trail Name : </label>
+                                                <label>{allhikes.trailName}</label>
+                                            </div>
+                                            <div className="mb-3">
+                                                <label>Area Name :  </label>
+                                                <label>{allhikes.areaName}</label>
+                                            </div>
+                                            <div className="mb-3">
+                                                <label>Walkable :</label>
+                                                <label>{allhikes.walkable}</label>
+                                              </div>
+                                            <div className="mb-3">
+                                                <label>Bike Friendly :</label>
+                                                <label>{allhikes.bikeFriendly}</label>
+                                                </div>
+                                            <div className="mb-3">
+                                                <label>Distance :</label>
+                                                <label>{allhikes.distance}</label>
+      </div>
+      <div className="mb-3">
+<label>Previous Date :</label>
+<label>{allhikes.date}</label>
+</div>
+      <form onSubmit={onSubmit}>
+        <div className="mb-3">
+          <label>Date changed to :</label>
+          <input
+            type="date"
+            onChange={(e) => changeValue(e.target.value)}
+            value={hikeDate}
+          />
+        </div>
+        <button type="submit" className="btn btn-primary mx-2">Update</button>
+        <Link className="btn btn-primary mx-2" to="/allhikes">Back</Link>
+      </form><hr/>
+                    <div>
+                <ImageUpload/>
             </div>
 
-        </div>
-    );
+            </div>
+</div>
+
+          </div>
+  );
 }

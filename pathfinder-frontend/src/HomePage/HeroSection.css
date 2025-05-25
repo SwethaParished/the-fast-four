@@ -9,6 +9,7 @@ video {
 
 .hero-container {
   /*background: url('/public/images/img-2.jpg') center center/cover no-repeat; */
+  background: url('/public/videos/video-1.mp4') autoPlay loop muted;
   height: 100vh;
   width: 100%;
   display: flex;

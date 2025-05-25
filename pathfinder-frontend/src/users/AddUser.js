@@ -34,24 +34,16 @@ export default function AddUser() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8080/user", user);
+      const response = await axios.post("http://localhost:9090/user", user);
       console.log(JSON.stringify(response?.data));
       console.log(JSON.stringify(response));
       const responseUser = JSON.stringify(response?.data?.username);
       const responsePw = JSON.stringify(response?.data?.password);
-      // setUser({firstName: "",
-      // lastName: "",
-      // username: "",
-      // password: "",
-      // email: ""});
-      navigate("/");
+
+      navigate("/login");
   } catch (err) {
       if (!err?.response) {
           setErrMsg('No server response.');
-      // } else if (responseUser == null) {
-      //   setErrMsg('Incorrect or unavailable username.')
-      // } else if (responsePw == null) {
-      //   setErrMsg('Incorrect or missing password.')
       }
     }
   };
@@ -115,7 +107,7 @@ export default function AddUser() {
                 Password
               </label>
               <input
-                type={"text"}
+                type="password"
                 className="form-control"
                 placeholder="icl1mb3verest"
                 name="password"
@@ -139,11 +131,12 @@ export default function AddUser() {
                 onChange={(e) => onInputChange(e)}
               />
             </div>
+
             <button type="submit" className="btn btn-outline-primary">
               Submit
             </button>
            
-          </form>
+</form>
         </div>
       </div>
     </div>
