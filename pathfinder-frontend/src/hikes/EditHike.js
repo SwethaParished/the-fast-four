@@ -5,7 +5,7 @@ import './EditHike.css';
 import DatePicker from "react-multi-date-picker"
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
 import Search from "../components/Search";
-import ImageUpload from "./ImageUpload";
+import Image from "./Image";
 
 
 
@@ -116,7 +116,7 @@ const onSubmit = async (e) => {
         <Link className="btn btn-primary mx-2" to="/allhikes">Back</Link>
       </form><hr/>
                     <div>
-                <ImageUpload/>
+                <Image/>
             </div>
 
             </div>
