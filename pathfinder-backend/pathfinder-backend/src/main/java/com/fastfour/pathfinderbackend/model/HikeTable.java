@@ -4,12 +4,16 @@ import jakarta.persistence.*;
 
 
 @Entity
+@Table(name = "hike_table")
 public class HikeTable {
 
     @Id
-    @GeneratedValue
-    private Long id;
-    
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long hikeId;
+
+    public HikeTable(Long hikeId) {
+        this.hikeId = hikeId;
+    }
     // @Column(name = "user_id")
     // Long userId;
 
@@ -24,9 +28,22 @@ public class HikeTable {
     private String distance;
     private String date;
 
+    public HikeTable() {
+    }
 
-    public Long getId() {
-        return id;
+    public HikeTable(Long hikeId, User user, String trailName, String areaName, String walkable, String bikeFriendly, String distance, String date) {
+        this.hikeId = hikeId;
+        this.user = user;
+        this.trailName = trailName;
+        this.areaName = areaName;
+        this.walkable = walkable;
+        this.bikeFriendly = bikeFriendly;
+        this.distance = distance;
+        this.date = date;
+    }
+
+    public Long getHikeId() {
+        return hikeId;
     }
 
 
